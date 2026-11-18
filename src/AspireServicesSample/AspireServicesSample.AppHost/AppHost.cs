@@ -15,4 +15,9 @@ var apiService = builder.AddDotnetProject("apiservice", "../AspireServicesSample
 	.WithReference(serviceBus)
     .WithHttpHealthCheck("/health");
 
+// 3. Register the Background Worker
+var backgroundWorker = builder.AddDotnetProject("backgroundworker", "../AspireServicesSample.Worker/AspireServicesSample.Worker.csproj")
+	.WithReference(cosmosDb)
+	.WithReference(serviceBus);
+
 builder.Build().Run();
