@@ -1,6 +1,5 @@
 using AspireServicesSample.ServiceDefaults;
 using Azure.Messaging.ServiceBus;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Cosmos;
 using Scalar.AspNetCore;
 using System.Net;
@@ -32,20 +31,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.MapGet("/", () => "API service is running. Navigate to /weatherforecast to see sample data.");
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-			Shared.Summaries[Random.Shared.Next(Shared.Summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
 
 app.MapPost("/weatherprobe", async (
 	WeatherProbeRequest request,

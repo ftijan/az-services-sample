@@ -11,12 +11,15 @@ public record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
 
 public sealed class WeatherProbeDocument
 {
+	// Ignore JSON naming attributes to simplify the code sample
+#pragma warning disable IDE1006 // Naming Styles
 	public string id { get; set; } = default!;
 	public string partitionKey { get; set; } = default!;
 	public Guid probeBatchId { get; set; }
 	public string city { get; set; } = default!;
 	public WeatherForecast[] forecast { get; set; } = [];
 	public DateTimeOffset capturedAt { get; set; }
+#pragma warning restore IDE1006 // Naming Styles
 }
 
 // Naive partition strategy, for testing aggregation approach
