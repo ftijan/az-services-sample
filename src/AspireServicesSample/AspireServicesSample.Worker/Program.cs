@@ -1,3 +1,4 @@
+using AspireServicesSample.ServiceDefaults;
 using AspireServicesSample.Worker;
 
 var builder = Host.CreateApplicationBuilder(args);
@@ -6,11 +7,11 @@ var builder = Host.CreateApplicationBuilder(args);
 builder.AddServiceDefaults();
 
 // Register Azure SDK clients matching the logical names in AppHost
-builder.AddAzureCosmosClient("sample-db");
-builder.AddAzureServiceBusClient("servicebus");
+builder.AddAzureCosmosClient(AspireResourceNames.CosmosDatabase);
+builder.AddAzureServiceBusClient(AspireResourceNames.ServiceBusConnection);
 
 // Register your background worker logic
-builder.Services.AddHostedService<Worker>();
+builder.Services.AddHostedService<ProbeWorker>();
 
 var host = builder.Build();
 host.Run();
