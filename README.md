@@ -3,10 +3,10 @@
 .NET Aspire V17 sample app testing Azure Service Bus and Azure Cosmos DB with background probe processing and city-level forecast aggregation.
 
 ## Architecture
-* **AspireServicesSample.AppHost:** Configures Azure Service Bus (`weather-probe-queue`) and Azure Cosmos DB (`weather-db`, container `weather-probes` with partition key `/partitionKey`) emulators and wires references/waits to services.
+* **AspireServicesSample.AppHost:** Configures Azure Service Bus (`weather-probe-queue`) and Azure Cosmos DB (`weather-db`) emulators and wires references to services.
 * **AspireServicesSample.ServiceDefaults:** Holds shared resource constants (`AspireResourceNames`), contracts (`WeatherProbeQueueMessage`, `WeatherProbeDocument`, `WeatherForecast`), and partition key helpers.
 * **AspireServicesSample.ApiService:** Exposes `POST /weatherprobe`, `GET /weatherprobes`, and OpenAPI + Scalar UI (`/scalar`) in development.
-* **AspireServicesSample.Worker (`ProbeWorker`):** Consumes `weather-probe-queue` via `ServiceBusProcessor`, generates 5-day forecasts over `times` iterations with a 1-second delay between iterations, and upserts documents into Cosmos DB.
+* **AspireServicesSample.Worker (`ProbeWorker`):** Consumes `weather-probe-queue` via `ServiceBusProcessor`, generates 5-day forecasts over `times` iterations with a 1-second delay between iterations, and upserts documents into Cosmos DB (container `weather-probes` with partition key `/partitionKey`).
 
 ## Partitioning & Resilience
 * **Partition key:** `yyyy-MM-dd|p{0..3}` using `DateTimeOffset.UtcNow.UtcDateTime.Second % 4` to spread writes across 4 daily buckets and bound aggregation queries by UTC date.
