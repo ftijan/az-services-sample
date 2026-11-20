@@ -9,7 +9,7 @@
 * **AspireServicesSample.Worker (`ProbeWorker`):** Consumes `weather-probe-queue` via `ServiceBusProcessor`, generates 5-day forecasts over `times` iterations with a 1-second delay between iterations, and upserts documents into Cosmos DB (container `weather-probes` with partition key `/partitionKey`).
 
 ## Partitioning & Resilience
-* **Partition key:** `yyyy-MM-dd|p{0..3}` using `DateTimeOffset.UtcNow.UtcDateTime.Second % 4` to spread writes across 4 daily buckets and bound aggregation queries by UTC date.
+* **Partition key:** `yyyy-MM-dd|p{0..3}` using `DateTimeOffset.UtcNow.UtcDateTime.Second % 4` to spread writes across 4 daily buckets and bound aggregation queries by UTC date as a placeholder partitioning strategy for upserts and data aggregations.
 * **Emulator restart recovery:** Will ignore 404 and log warning to populate data on `CosmosException` (`404 NotFound`) during `ReadNextAsync` / will recreate container on upserts.
 
 ## API Usage
